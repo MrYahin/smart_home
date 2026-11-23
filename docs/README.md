@@ -4,6 +4,7 @@
 
 - [Архитектура](architecture.md) — границы компонентов, маршрутизация, источники данных и общие интерфейсы.
 - [Статусы](status/README.md) — результаты проверки системы, актуальность экспортов и открытые риски.
+- [Решения: развитие умного дома](decisions/home-improvement.md) — цикл улучшений, оценка инициатив, будущий реестр и отчёты.
 - [Решения: персонализация](decisions/personalization.md) — PostgreSQL → будущий personal_assistant / RAG.
 - [Решения: интерфейс и файлы](decisions/interface-files.md) — чат n8n, перспектива Open WebUI, загрузка и выдача файлов.
 - [Инфраструктура: PostgreSQL](infrastructure/postgresql.md) — схема и правила изменения данных.
