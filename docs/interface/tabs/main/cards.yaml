@@ -1,0 +1,227 @@
+type: picture-elements
+image: /local/home_background.png
+style: |
+  ha-card { background-color: black; }
+elements:
+  - type: custom:hui-element
+    card_type: markdown
+    content: "{{ now().strftime('%H:%M') }}"
+    style:
+      top: "-1%"
+      left: 83%
+      width: 18%
+      transform: none
+    card_mod:
+      style: |
+        :host {
+          --ha-card-background: transparent;
+          --card-background-color: transparent;
+        }
+        ha-card {
+          background: transparent !important;
+          border: none !important;
+          box-shadow: none !important;
+          overflow: visible !important;
+        }
+        ha-markdown {
+          color: white !important;
+          font-size: 3.5vw !important;
+          font-weight: bold;
+          font-family: sans-serif;
+          text-align: right;
+        }
+        ha-markdown p { margin: 0 !important; line-height: 1 !important; }
+  - type: custom:hui-element
+    card_type: custom:earth-globe-card
+    auto_rotate: false
+    rotation_speed: 0.04
+    day_brightness: 1.12
+    night_brightness: 1.55
+    night_surface_brightness: 0.055
+    twilight_width: 0.12
+    atmosphere_strength: 0.18
+    initial_latitude: 27
+    initial_longitude: 40
+    max_texture_size: 4096
+    max_fps: 30
+    pixel_ratio: 2
+    refresh_seconds: 120
+    show_status: true
+    show_clouds: true
+    clouds_entity: input_boolean.earth_clouds
+    clouds_opacity: 0.82
+    style:
+      top: 50%
+      right: 5%
+      width: 44%
+      aspect-ratio: 1 / 1
+      transform: translateY(-50%)
+      z-index: 2
+    card_mod:
+      style: |
+        :host {
+          --ha-card-background: transparent;
+          --card-background-color: transparent;
+        }
+        ha-card {
+          background: transparent !important;
+          border: none !important;
+          box-shadow: none !important;
+        }
+  - type: state-icon
+    entity: input_boolean.earth_clouds
+    icon: mdi:weather-cloudy
+    title: Облака
+    tap_action:
+      action: toggle
+    hold_action:
+      action: more-info
+    style:
+      top: 86%
+      right: 9%
+      transform: translate(50%, -50%)
+      z-index: 5
+      color: white
+      "--paper-item-icon-active-color": "#79baff"
+      "--paper-item-icon-color": "#777f88"
+  - type: custom:hui-element
+    card_type: markdown
+    content: |
+      <img src="http://REPLACE_WITH_MOON_IMAGE_HOST/moon.jpg?v={{ now().strftime('%Y%m%d%H%M') }}"
+           style="border-radius:50%; width:100%; display:block;">
+    style:
+      top: 16%
+      right: 11%
+      width: 44%
+      transform: translateY(-50%)
+    card_mod:
+      style: |
+        :host {
+          --ha-card-background: transparent;
+          --card-background-color: transparent;
+        }
+        ha-card {
+          background: transparent !important;
+          border: none !important;
+          box-shadow: none !important;
+          padding: 0 !important;
+        }
+        ha-markdown {
+          display: block;
+          line-height: 0;
+        }
+        ha-markdown p { margin: 0 !important; }
+  - type: custom:hui-element
+    card_type: markdown
+    content: >
+      {% set condition_map = {
+        'clear-night': 'Ясная ночь',
+        'cloudy': 'Облачно',
+        'exceptional': 'Экстремальные условия',
+        'fog': 'Туман',
+        'hail': 'Град',
+        'lightning': 'Гроза',
+        'lightning-rainy': 'Гроза с дождём',
+        'partlycloudy': 'Переменная облачность',
+        'pouring': 'Проливной дождь',
+        'rainy': 'Дождь',
+        'snowy': 'Снег',
+        'snowy-rainy': 'Мокрый снег',
+        'sunny': 'Солнечно',
+        'windy': 'Ветрено',
+        'windy-variant': 'Ветрено с облаками'
+      } %} {% set cond = states('weather.forecast_home') %} {{
+      condition_map.get(cond, cond) }}
+
+      🌡 **{{ state_attr('weather.forecast_home', 'temperature') }}°C**
+      &nbsp;&nbsp; 💧 **{{ state_attr('weather.forecast_home', 'humidity') }}%**
+      &nbsp;&nbsp; 💨 **{{ state_attr('weather.forecast_home', 'wind_speed') }}
+      км/ч**
+    style:
+      top: 4%
+      left: 3%
+      width: 40%
+      transform: none
+    card_mod:
+      style: |
+        :host {
+          --ha-card-background: transparent;
+          --card-background-color: transparent;
+        }
+        ha-card {
+          background: transparent !important;
+          border: none !important;
+          box-shadow: none !important;
+        }
+        ha-markdown {
+          color: white !important;
+          font-size: 1.4vw !important;
+          font-family: sans-serif;
+          line-height: 1.8;
+        }
+        ha-markdown p { margin: 0 !important; }
+        ha-markdown h2 {
+          color: white !important;
+          font-size: 1.6vw !important;
+          margin: 0 0 4px 0 !important;
+        }
+        ha-markdown strong { color: white !important; }
+  - type: custom:hui-element
+    card_type: weather-forecast
+    entity: weather.forecast_home
+    show_current: false
+    show_forecast: true
+    forecast_type: daily
+    style:
+      top: 22%
+      left: 20%
+      width: 40%
+      transform: translate(-50%, -50%)
+    card_mod:
+      style: |
+        :host {
+          --ha-card-background: transparent;
+          --card-background-color: transparent;
+        }
+        ha-card {
+          background: transparent !important;
+          border: none !important;
+          box-shadow: none !important;
+        }
+        ha-card * { color: white !important; }
+  - type: custom:hui-element
+    card_type: custom:horizon-card
+    fields:
+      sunrise: true
+      sunset: true
+      dawn: true
+      dusk: true
+      noon: false
+      azimuth: true
+      sun_azimuth: false
+      moon_azimuth: false
+      elevation: false
+      sun_elevation: false
+      moon_elevation: false
+      moonrise: false
+      moonset: false
+      moon_phase: false
+    card_mod:
+      style: |
+        ha-card {
+          border-radius: 20px !important;
+          overflow: hidden !important;
+          border: none !important;
+          box-shadow: none !important;
+          background: transparent !important;
+        }
+        :host {
+          border-radius: 20px !important;
+          overflow: hidden !important;
+        }
+    style:
+      top: 70%
+      left: 18.5%
+      width: 30%
+      height: 35%
+      transform: translate(-50%, -50%)
